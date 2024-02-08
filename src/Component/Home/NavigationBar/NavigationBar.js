@@ -83,7 +83,7 @@ function NavigationBar() {
   }, []);
 
   return (
-    <div style={{ backgroundColor: "#88cafc" }}>
+    <div style={{ backgroundColor: "white" }}>
       <div
         className=" jumbotron   "
         style={{
@@ -101,7 +101,7 @@ function NavigationBar() {
                   alt="..."
                   as={Link}
                   to="/home"
-                  style={{ width: "188px" }}
+                  style={{ width: "80px" }}
                 />
               </Navbar.Brand>
             </Col>
@@ -109,9 +109,9 @@ function NavigationBar() {
               <Navbar.Toggle aria-controls="basic-navbar-nav " />
               <Navbar.Collapse
                 id="basic-navbar-nav "
-                style={{
-                  fontFamily: "cursive",
-                }}
+                 style={{
+                 fontFamily: "sans-serif",
+               }}
               >
                 <Nav className="me-auto   fs-5 ">
                   <Navcomponent />

@@ -27,7 +27,7 @@ function Navcomponent() {
     >
       <Nav className="me-auto" style={{display:"contents" }}>
         <Link className="nav-link fs-5" as={Link} to="/home">
-          <b>Home</b>
+          <b style= {{filter: "drop-shadow black"}}>Home</b>
         </Link>
         <Link className="nav-link fs-5" as={Link} to="/about">
           <b>About</b>

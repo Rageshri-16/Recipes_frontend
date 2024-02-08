@@ -65,7 +65,7 @@ function HeaderBottom() {
   return (
     <div>
       <div className="card text-center">
-        <div style={{ backgroundColor: "#4ab1ff" }}>
+        <div style={{ backgroundColor: "#add8e6" }}>
           <div className="container">
             <div className="col mt-4 text-dark">
             <div>
