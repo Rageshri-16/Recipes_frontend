@@ -19,7 +19,6 @@ function About() {
           ></img>
         </div>
       </div>
-
       <div className="card text-center m-2" style={{ backgroundColor: "#bddaf2" }}>
         <div className="card-header">
           <h1>service </h1>
