@@ -22,7 +22,7 @@ function About() {
 
       <div className="card text-center m-2" style={{ backgroundColor: "#bddaf2" }}>
         <div className="card-header">
-          <h1>About US</h1>
+          <h1>service</h1>
         </div>
         <div className="card-body">
           <div className="container my-2">
