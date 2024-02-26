@@ -149,31 +149,29 @@ function NavigationBar() {
                     ) : (
                       <div>
                         <div className="col  pb-4">
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                              <div>
-                                <button
-                                  className="btn btn-outline-primary fs-5"
-                                  onClick={logout}
-                                >
-                                  logout
-                                </button>
-                              </div>
-                            </Grid>
-                            <Grid item xs={12}>
+                          <Grid container spacing={0}>
+                            
+                            <Grid item xs={10}>
                               <div>
                                 <h4>
                                   <Badge
                                     className="rounded-2 p-2"
-                                    style={{
-                                      backgroundColor: "#1565c0",
-                                      color: "#becccf",
-                                    }}
+                                    
                                   >
                                     <AccountCircleIcon />
                                     {FNameuser} {LNameuser}{" "}
                                   </Badge>
                                 </h4>
+                              </div>
+                            </Grid>
+                            <Grid item xs={10}>
+                              <div style={{}}>
+                                <button
+                                  className="btn btn-outline-primary fs-50"
+                                  onClick={logout}
+                                >
+                                  logout
+                                </button>
                               </div>
                             </Grid>
                           </Grid>

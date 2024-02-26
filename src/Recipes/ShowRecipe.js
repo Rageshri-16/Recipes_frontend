@@ -75,7 +75,7 @@ function ShowRecipe() {
 </div>
       ):(
         <div className="card text-center">
-        <div style={{ backgroundColor: "#4ab1ff" }}>
+        <div style={{ backgroundColor: "#add8e6" }}>
           <div className="container">
             <div
               className="card-body"

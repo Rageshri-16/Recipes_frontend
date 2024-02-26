@@ -9,7 +9,7 @@ function HomeSlide() {
     <Carousel>
     <Carousel.Item interval={1000}>
       <img
-        className="d-block w-100 h-50"
+        className="d-block w-100 h-10"
         src={Slide1}
         alt="First slide"
       />

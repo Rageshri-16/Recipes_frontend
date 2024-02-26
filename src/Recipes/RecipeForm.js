@@ -15,8 +15,11 @@ function RecipeForm() {
   let UserLName = regdata[0].element.LName;
   let userName = UserFName + " " + UserLName;
 
+  const [nameError, setNameError] = useState("");
+  const [categoryError, setCategoryError] = useState("");
+
   const [recipe, setRecipe] = React.useState([]);
-  
+
   const [ingredients, setIngredients] = React.useState("");
   const [directions, setDirections] = React.useState("");
   const [nutrition, setNutrition] = React.useState("");
@@ -25,9 +28,11 @@ function RecipeForm() {
   const [imageurl, setImageurl] = React.useState("");
   const [addAlertBox, setAddAlertBox] = React.useState(false);
   const [addImageAlertBox, setAddImageAlertBox] = React.useState(false);
-
-
-   
+  const [errors, setErrors] = useState({
+    Name: "",
+    Category: "",
+    ChefNote: "",
+  });
 
   let max = 0;
   for (let i = 0; i < recipe.length; i++) {
@@ -57,17 +62,36 @@ function RecipeForm() {
     SocialMedia: "",
     ChefName: userName,
     AddDate: date,
-    preserving:"",
-    preservingMeasure:"",
-    preservin:"",
+    preserving: "",
+    preservingMeasure: "",
+    preservin: "",
   });
 
-
   const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInput({
+      ...input,
+      [name]: value,
+    });
+    // Reset the corresponding error when user starts typing
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
     setInput({
       ...input,
       [e.target.name]: e.target.value,
     });
+    if (e.target.name === "Name") {
+      setNameError(e.target.value.trim() === "" ? "Name is required*" : "");
+    }
+
+    // Validation for Category
+    if (e.target.name === "Category") {
+      setCategoryError(
+        e.target.value === "none" ? "Category is required*" : ""
+      );
+    }
   };
 
   const ImageHandler = async (e) => {
@@ -167,7 +191,29 @@ function RecipeForm() {
   //Recipe Submit
   async function handleSubmit(event) {
     let value = { ...input, UID: max };
-    let Preserved =`${input.preserving} ${input.preservingMeasure} in ${input.preservin} `
+    let Preserved = `${input.preserving} ${input.preservingMeasure} in ${input.preservin} `;
+
+    if (input.Name.trim() === "") {
+      setErrors({
+        ...errors,
+        Name: "Name is required",
+      });
+      return;
+    }
+    if (input.Category === "") {
+      setErrors({
+        ...errors,
+        Category: "Please select a category",
+      });
+      return;
+    }
+    if (input.ChefNote.trim() === "") {
+      setErrors({
+        ...errors,
+        ChefNote: "Chef's Notes is required",
+      });
+      return;
+    }
 
     //send data to backend.
     let requestOptions = {
@@ -185,8 +231,8 @@ function RecipeForm() {
     let result = await resultdata.json();
     if (result.message === "added") {
       setAddAlertBox(true);
-      }
     }
+  }
 
   const recipelist = () => {
     fetch("http://localhost:4500/recipe/list")
@@ -201,21 +247,18 @@ function RecipeForm() {
     recipelist();
   }, []);
 
-
-const preserving = (e) => {
-  setInput({
-    ...input,
-    [e.target.name]: e.target.value,
-  });
-
-}
-
+  const preserving = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <div className="container">
       <div></div>
       <h1 className="text-center">Add Recipe Form</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className=" border-top  border-bottom  border-primary  border-3 rounded m-3 ">
           <div className="row">
             <div className="col-6">
@@ -231,6 +274,9 @@ const preserving = (e) => {
                 value={input.Name}
                 onChange={handleChange}
               />
+              <div style={{ color: "red" }} className="error">
+                {errors.Name}
+              </div>
             </div>
             <div className="col-6">
               <div className="title">
@@ -240,8 +286,9 @@ const preserving = (e) => {
                 name="Category"
                 className="Category"
                 onChange={handleChange}
+                value={input.Category}
               >
-                <option value="none" selecte hidden>
+                <option value="none" hidden>
                   Select your recipe's Category
                 </option>
 
@@ -255,6 +302,9 @@ const preserving = (e) => {
                   Eggetarian
                 </option>
               </select>
+              <div style={{ color: "red" }} className="error">
+                {errors.Category}
+              </div>
               {/* <input
                 type="text"
                 className="form-control"
@@ -431,33 +481,31 @@ const preserving = (e) => {
                   />
                 </div>
 
-                  <select name="preservingMeasure" onChange={preserving} >
-                    <option value="none" selected hidden>
-                      preservingMeasure
-                    </option>
-                    <option className="hours" value="hours">
-                      hours
-                    </option>
-                    <option className="min" value="Min">
-                      Minute
-                    </option>
-                    <option className="days" value="days">
-                      days
-                    </option>
-                  </select>
-                <div>
-                </div>
-                
-                  <select name="preservin" onChange={preserving}>
-                    <option value="none" selected hidden>
-                      preserving in...
-                    </option>
-                    <option value="RoomTemperature">Room Temperature</option>
-                    <option value="refrigerator">refrigerator</option>
-                    <option value="hotcase">hot case</option>
-                  </select>
-                <div>
-                </div>
+                <select name="preservingMeasure" onChange={preserving}>
+                  <option value="none" selected hidden>
+                    preservingMeasure
+                  </option>
+                  <option className="hours" value="hours">
+                    hours
+                  </option>
+                  <option className="min" value="Min">
+                    Minute
+                  </option>
+                  <option className="days" value="days">
+                    days
+                  </option>
+                </select>
+                <div></div>
+
+                <select name="preservin" onChange={preserving}>
+                  <option value="none" selected hidden>
+                    preserving in...
+                  </option>
+                  <option value="RoomTemperature">Room Temperature</option>
+                  <option value="refrigerator">refrigerator</option>
+                  <option value="hotcase">hot case</option>
+                </select>
+                <div></div>
               </div>
             </div>
 
@@ -494,6 +542,7 @@ const preserving = (e) => {
                   Add
                 </button>
               </div>
+
               <div>
                 <ul>
                   {input?.ingredients?.length > 0 &&
@@ -563,6 +612,9 @@ const preserving = (e) => {
                 value={input.ChefNote}
                 onChange={handleChange}
               ></textarea>
+              <div style={{ color: "red" }} className="error">
+                {errors.ChefNote}
+              </div>
             </div>
 
             <div className="mb-3">
