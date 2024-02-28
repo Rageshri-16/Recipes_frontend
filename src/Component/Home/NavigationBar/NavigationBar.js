@@ -93,7 +93,7 @@ function NavigationBar() {
         {/* <Container > */}
         <Row>
           <Navbar expand="lg" className=" d-flex justify-content-center">
-            <Col xs={3} md={2}>
+            <Col xs={2} md={1}>
               <Navbar.Brand style={{}}>
                 <img
                   src={logo}
@@ -106,11 +106,11 @@ function NavigationBar() {
               </Navbar.Brand>
             </Col>
             <Col xs={6} md={7} className="w-auto">
-              <Navbar.Toggle aria-controls="basic-navbar-nav " />
+              <Navbar.Toggle style={{height: "30px"}} aria-controls="basic-navbar-nav " />
               <Navbar.Collapse
                 id="basic-navbar-nav "
                  style={{
-                 fontFamily: "sans-serif",
+                 fontFamily: "serif",
                }}
               >
                 <Nav className="me-auto   fs-5 ">
@@ -127,7 +127,7 @@ function NavigationBar() {
                         <div className="col  pb-">
                           <Link
                             type="button"
-                            className="btn btn-outline-primary me-2 fs-5"
+                            className="btn btn-outline-primary me-2 fs-7"
                             as={Link}
                             to="/SignIn"
                           >
@@ -135,7 +135,7 @@ function NavigationBar() {
                           </Link>
                           <Link
                             type="button"
-                            className="btn btn-outline-primary fs-5"
+                            className="btn btn-outline-primary fs-7"
                             as={Link}
                             to="/SignUp"
                           >

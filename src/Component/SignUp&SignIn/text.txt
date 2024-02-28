@@ -19,59 +19,52 @@ import { useEffect } from "react";
 const theme = createTheme();
 
 export default function SignIn() {
-
   const navigate = useNavigate();
-
-const [emailError, setEmailError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const isValidEmail = (email) => {
-    // Replace this with your actual email validation logic
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-///////////////////////////////chatgpt
+
     const enteredEmail = data.get("email");
-  const enteredPassword = data.get("password");
+    const enteredPassword = data.get("password");
 
-  setEmailError("");
-  setPasswordError("");
+    setEmailError("");
+    setPasswordError("");
 
+    // Check if email and password are empty
+    if (!enteredEmail) {
+      setEmailError("Email is required");
+      return;
+    }
 
-  // Check if email and password are empty
-  if (!enteredEmail) {
-    setEmailError("Email is required");
-    return;
-  }
+    if (!enteredPassword) {
+      setPasswordError("Password is required");
+      return;
+    }
 
-  if (!enteredPassword) {
-    setPasswordError("Password is required");
-    return;
-  }
+    // Check if the entered email is valid
+    if (!isValidEmail(enteredEmail)) {
+      setEmailError("Invalid Email");
+      return;
+    }
 
-  // Check if the entered email is valid (you can replace this with your own validation logic)
-  if (!isValidEmail(enteredEmail)) {
-    setEmailError("Invalid Email");
-    return;
-  }
+    // Check if the entered password meets your criteria (e.g., minimum length)
+    if (enteredPassword.length < 6) {
+      setPasswordError("Password should be at least 6 characters");
+      return;
+    }
 
-  // Check if the entered password meets your criteria (e.g., minimum length)
-  if (enteredPassword.length < 6) {
-    setPasswordError("Password should be at least 6 characters");
-    return;
-  }
-
-
-/////////////////////////////////////chatgpt
     let logindata = {
       UID: users.length,
-      email: data.get("email"),
-      password: data.get("password"),
+      email: enteredEmail,
+      password: enteredPassword,
     };
 
     localStorage.setItem("login-info", JSON.stringify([{ logindata }]));
@@ -82,66 +75,45 @@ const [emailError, setEmailError] = useState("");
     let passwordreg = userdata[0].regdata.password;
     let UIDreg = userdata[0].regdata.UID;
     let usercheck = false;
-    console.log("UIDreg",UIDreg);
+
     for (let i = 0; i < users.length; i++) {
       const element = users[i];
-      if (
-        element.Email == logindata.email &&
-        element.Password == logindata.password
-      ) {
+      if (element.Email === logindata.email && element.Password === logindata.password) {
         usercheck = true;
         localStorage.setItem("login-user-info", JSON.stringify([{ element }]));
-
         break;
       }
       usercheck = false;
-}
+    }
 
-console.log("userchek",usercheck);
     if (usercheck) {
       navigate("/home");
-      console.log("user is authenticate");
-    }else if (logindata.email == "admin@gmail.com" && logindata.password == "admin") {
-      navigate("/admin")
+      console.log("user is authenticated");
+    } else if (logindata.email === "admin@gmail.com" && logindata.password === "admin") {
+      navigate("/admin");
     } else if (emailreg !== logindata.email) {
       setEmailError("Your Email Is Incorrect");
     } else if (passwordreg !== logindata.password) {
       setPasswordError("Your Password Is Incorrect");
     }
-
-    
-
   };
- 
-  const [users, setUsers] = useState([]);
 
+  const [users, setUsers] = useState([]);
 
   const fetchData = () => {
     fetch("http://localhost:4500/list")
-      .then((response) => {
-        return response.json();
-      })
-      .then((getdata) => {
-        setUsers(getdata);
-      });
+      .then((response) => response.json())
+      .then((getdata) => setUsers(getdata))
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
   useEffect(() => {
     fetchData();
   }, []);
-console.log("userssssssssssssssss",users);
-  
-
-  // let emailreg = SignIn(param.emailreg)
-  // let passwordreg = SignIn(param.passwordreg)
-  //  if(emailreg === logindata.email && passwordreg === logindata.password ){
-  //       navigate("/home")
-  //     }
-  
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" ,padding:"25px" }}>
+      <Grid container component="main" sx={{ height: "100vh", padding: "25px" }}>
         <CssBaseline />
         <Grid
           item
@@ -153,9 +125,7 @@ console.log("userssssssssssssssss",users);
               "url(https://s3.amazonaws.com/prod.tctmd.com/public/2021-03/Eating%20More%20Ultraprocessed%20%E2%80%98Junk%E2%80%99%20Food%20Linked%20to%20Higher%20CVD%20Risk.jpeg)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
+              t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900],
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -176,12 +146,7 @@ console.log("userssssssssssssssss",users);
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -191,8 +156,8 @@ console.log("userssssssssssssssss",users);
                 name="email"
                 autoComplete="email"
                 autoFocus
-                error={!!emailError}  // Set error prop to true if there's an error
-            helperText={emailError}  // Display error message
+                error={!!emailError}
+                helperText={emailError}
               />
               <TextField
                 margin="normal"
@@ -206,13 +171,7 @@ console.log("userssssssssssssssss",users);
                 error={!!passwordError}
                 helperText={passwordError}
               />
-              
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Sign In
               </Button>
               <Grid container>
