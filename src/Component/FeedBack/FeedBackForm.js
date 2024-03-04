@@ -38,7 +38,7 @@ function FeedBackForm() {
     setVali({ ...vali, [e.target.name]: e.target.value });
   };
   // async function handleSubmit(event) {
-   
+
   //   event.preventDefault();
 
   //   if (vali.email !== "") {
@@ -102,20 +102,28 @@ function FeedBackForm() {
   //     };
   async function handleSubmit(event) {
     event.preventDefault();
-  
-    if (vali.email !== "" && !/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(vali.email)) {
+
+    if (
+      vali.email !== "" &&
+      !/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i.test(vali.email)
+    ) {
       setEmailVal(true);
     } else {
       setEmailVal(false);
     }
-  
+
     if (vali.mobile !== "" && vali.mobile.length !== 10) {
       setMobileVal(true);
     } else {
       setMobileVal(false);
     }
-  
-    if (vali.name === "" && vali.mobile === "" && vali.email === "" && vali.message === "") {
+
+    if (
+      vali.name === "" &&
+      vali.mobile === "" &&
+      vali.email === "" &&
+      vali.message === ""
+    ) {
       setVali({
         ...vali,
         errorname: "Name is required*",
@@ -157,7 +165,11 @@ function FeedBackForm() {
         },
       };
       let resultdata = await fetch(
-        `http://localhost:4500/feedback/add?UID=${++max}&Name=${vali.name}&Phone=${vali.mobile}&Email=${vali.email}&Message=${vali.message}&Status=false`,
+        `http://localhost:4500/feedback/add?UID=${++max}&Name=${
+          vali.name
+        }&Phone=${vali.mobile}&Email=${vali.email}&Message=${
+          vali.message
+        }&Status=false`,
         requestOptions
       );
       let result = await resultdata.json();
@@ -165,8 +177,7 @@ function FeedBackForm() {
       setOpen(true);
     }
   }
-  
-  
+
   //     let resultdata = await fetch(
   //       `http://localhost:4500/feedback/add?UID=${++max}&Name=${
   //         vali.name
@@ -208,6 +219,94 @@ function FeedBackForm() {
                 alignItems: "center",
               }}
             >
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <FeedbackIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                FeedBack
+              </Typography>
+              <Form
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 3 }}
+              >
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      autoComplete="given-name"
+                      name="name"
+                      required
+                      fullWidth
+                      id="name"
+                      label="Name"
+                      autoFocus
+                      onChange={(e) => changeHandler(e)}
+                    />
+                    <label style={{ color: "red" }}>{vali.errorname}</label>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      autoComplete="mobile"
+                      name="mobile"
+                      type="number"
+                      required
+                      fullWidth
+                      id="mobile"
+                      label="Mobile"
+                      autoFocus
+                      onChange={(e) => changeHandler(e)}
+                    />
+                    <label style={{ color: "red" }}>
+                      {vali.mobile === ""
+                        ? vali.errormobile
+                        : mobileVal
+                        ? `Mobile is incorrect*`
+                        : ""}
+                    </label>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="email"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
+                      onChange={(e) => changeHandler(e)}
+                    />
+                    <label style={{ color: "red" }}>
+                      {vali.email === ""
+                        ? vali.erroremail
+                        : emailVal
+                        ? `Email is incorrect*`
+                        : ""}
+                    </label>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextareaAutosize
+                      name="message"
+                      id="message"
+                      label="Message"
+                      aria-label="minimum height"
+                      required
+                      minRows={3}
+                      placeholder="Enter Your Feedback..."
+                      style={{ width: 400, backgroundColor: "transparent" }}
+                      onChange={(e) => changeHandler(e)}
+                    />
+                    <label style={{ color: "red" }}>{vali.errormessage}</label>
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Submit
+                </Button>
+              </Form>
               <Collapse in={open} style={{ width: "717px", marginTop: "7px" }}>
                 <Alert
                   action={
@@ -227,88 +326,6 @@ function FeedBackForm() {
                   <label>Your Feddback Submited!!!</label>
                 </Alert>
               </Collapse>
-
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <FeedbackIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                FeedBack
-              </Typography>
-              <Form
-  component="form"
-  noValidate
-  onSubmit={handleSubmit}
-  sx={{ mt: 3 }}
->
-  <Grid container spacing={2}>
-    <Grid item xs={12}>
-      <TextField
-        autoComplete="given-name"
-        name="name"
-        required
-        fullWidth
-        id="name"
-        label="Name"
-        autoFocus
-        onChange={(e) => changeHandler(e)}
-      />
-      <label style={{ color: "red" }}>{vali.errorname}</label>
-    </Grid>
-    <Grid item xs={12}>
-      <TextField
-        autoComplete="mobile"
-        name="mobile"
-        type="number"
-        required
-        fullWidth
-        id="mobile"
-        label="Mobile"
-        autoFocus
-        onChange={(e) => changeHandler(e)}
-      />
-      <label style={{ color: "red" }}>
-        {vali.mobile === "" ? vali.errormobile : mobileVal ? `Mobile is incorrect*` : ""}
-      </label>
-    </Grid>
-    <Grid item xs={12}>
-      <TextField
-        required
-        fullWidth
-        id="email"
-        label="Email Address"
-        name="email"
-        autoComplete="email"
-        onChange={(e) => changeHandler(e)}
-      />
-      <label style={{ color: "red" }}>
-        {vali.email === "" ? vali.erroremail : emailVal ? `Email is incorrect*` : ""}
-      </label>
-    </Grid>
-    <Grid item xs={12}>
-      <TextareaAutosize
-        name="message"
-        id="message"
-        label="Message"
-        aria-label="minimum height"
-        required
-        minRows={3}
-        placeholder="Enter Your Feedback..."
-        style={{ width: 400, backgroundColor: "transparent" }}
-        onChange={(e) => changeHandler(e)}
-      />
-      <label style={{ color: "red" }}>{vali.errormessage}</label>
-    </Grid>
-  </Grid>
-  <Button
-    type="submit"
-    fullWidth
-    variant="contained" 
-    sx={{ mt: 3, mb: 2 }}
-  >
-    Submit
-  </Button>
-</Form>
-
             </Box>
           </Container>
         </ThemeProvider>

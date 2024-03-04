@@ -61,10 +61,10 @@ function Footer() {
             </Card.Body>
           </Card.ImgOverlay>
           <Card.Footer
-            className="text-muted  "
-            style={{ fontFamily: "cursive" }}
+            className="text"
+            style={{ fontFamily: "serif" ,backgroundColor:"black"}}
           >
-            Copiright@2022 Devloped By:Parth
+            Copiright@2024 Devloped By: Recipe Management
           </Card.Footer>
         </Card>
       </Card>

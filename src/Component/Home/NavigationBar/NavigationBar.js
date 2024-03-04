@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import { useEffect, useState } from "react";
-import logo from "../../../pics/RecipeLogo.png";
-import { Navbar } from "react-bootstrap";
+import logo from "../../../pics/logo3.jpg";
+// import logo from "../../../pics/logo2.png";
+import { Image, Navbar } from "react-bootstrap";
 import { Nav } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -13,6 +14,7 @@ import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Grid from "@mui/material/Grid";
 import Badge from "@mui/material/Badge";
+import "../../../style/Nav.css";
 
 function NavigationBar() {
   let reg = localStorage.getItem("login-user-info");
@@ -95,23 +97,32 @@ function NavigationBar() {
           <Navbar expand="lg" className=" d-flex justify-content-center">
             <Col xs={2} md={1}>
               <Navbar.Brand style={{}}>
-                <img
+                <Image
                   src={logo}
-                  className="card-img-top"
+                  roundedCircle
+                  thumbnail
+                  style={{ width: "4rem" }}
+                />
+                {/* <img
+                  src={logo}
+                  className="card-img-top image1"
                   alt="..."
                   as={Link}
                   to="/home"
-                  style={{ width: "80px" }}
-                />
+                  style={{ width: "80px"}}
+                /> */}
               </Navbar.Brand>
             </Col>
             <Col xs={6} md={7} className="w-auto">
-              <Navbar.Toggle style={{height: "30px"}} aria-controls="basic-navbar-nav " />
+              <Navbar.Toggle
+                style={{ height: "30px" }}
+                aria-controls="basic-navbar-nav "
+              />
               <Navbar.Collapse
                 id="basic-navbar-nav "
-                 style={{
-                 fontFamily: "serif",
-               }}
+                style={{
+                  fontFamily: "serif",
+                }}
               >
                 <Nav className="me-auto   fs-5 ">
                   <Navcomponent />
@@ -124,7 +135,7 @@ function NavigationBar() {
                   <div className="col">
                     {!isloggedin ? (
                       <div>
-                        <div className="col  pb-">
+                        <div className="col">
                           <Link
                             type="button"
                             className="btn btn-outline-primary me-2 fs-7"
@@ -142,29 +153,23 @@ function NavigationBar() {
                             SignUp
                           </Link>
                         </div>
-                        <div>
-                          {/* <NavsocialIcon /> */}
-                        </div>
+                        <div>{/* <NavsocialIcon /> */}</div>
                       </div>
                     ) : (
                       <div>
-                        <div className="col  pb-4">
+                        <div className="col">
                           <Grid container spacing={0}>
-                            
                             <Grid item xs={10}>
                               <div>
                                 <h4>
-                                  <Badge
-                                    className="rounded-2 p-2"
-                                    
-                                  >
+                                  <Badge className="rounded-2 px-2">
                                     <AccountCircleIcon />
                                     {FNameuser} {LNameuser}{" "}
                                   </Badge>
                                 </h4>
                               </div>
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={2}>
                               <div style={{}}>
                                 <button
                                   className="btn btn-outline-primary fs-50"
