@@ -101,7 +101,7 @@ console.log("userchek",usercheck);
     if (usercheck) {
       navigate("/home");
       console.log("user is authenticate");
-    }else if (logindata.email == "admin@gmail.com" && logindata.password == "admin") {
+    }else if (logindata.email == "admin@gmail.com" && logindata.password == "admin@123") {
       navigate("/admin")
     } else if (emailreg !== logindata.email) {
       setEmailError("Your Email Is Incorrect");
